@@ -37,32 +37,13 @@ const createBudget = asyncHandler( async (req, res) => {
 
 const updateBudget = asyncHandler( async (req, res) => {
     const budgetId = req.params.id
-
+    
     const budget = await BudgetSchema.findOne({ _id:budgetId })
-    res.json(budget)
-
-    // const { expenses } = req.body
-
-    // const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0)
-
-    // const exceeded = totalExpenses > updatedBudget.budgetAmount
-
-    // const updatedBudget = await BudgetSchema.updateOne(
-    //     { _id: budgetId},
-        // {
-        //     $set: {
-        //         expenses,
-        //         exceeded
-        //     }
-        // }
-        // )
-
-    // if(!updateBudget) {
-    //     res.status(404)
-    //     throw new Error("Budget does not exist")
-    // }
-
-    // res.json("budget updated: ",updatedBudget)
+    if(!budget){
+        res.status(404)
+        throw new Error("Budget does not exist")
+    }
+    res.json({message:"Budget updated"})
 })
 
 const deleteBudget = asyncHandler( async (req, res) => {

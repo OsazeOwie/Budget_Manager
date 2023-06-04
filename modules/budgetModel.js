@@ -24,7 +24,10 @@ const budgetSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    expenses: [expenseSchema], // Array of expense objects
+    expenses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Expense'
+      }], // Array of expense objects
     exceeded: {
         type: Boolean,
         default: false
@@ -32,3 +35,4 @@ const budgetSchema = mongoose.Schema({
 })
 
 module.exports = mongoose.model("Budget", budgetSchema);
+module.exports = mongoose.model('Expense', expenseSchema);
