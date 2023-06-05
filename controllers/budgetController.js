@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const BudgetSchema = require("../modules/budgetModel");
-const mongoose = require("mongoose")
 
 
 const getBudget = asyncHandler( async (req, res) => {
@@ -18,7 +17,7 @@ const createBudget = asyncHandler( async (req, res) => {
     const existingBudget = await BudgetSchema.findOne({ user_id: req.user.id, month, year })
     if (existingBudget) {
         res.status(409)
-        throw new Error("Budget plan already exists")
+        throw new Error("Budget plan already exists");
     }
 
     const budget = await BudgetSchema.create({
