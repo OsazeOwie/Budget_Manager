@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const BudgetSchema = require("../modules/budgetModel");
+const { default: mongoose } = require("mongoose");
 
 
 const getBudget = asyncHandler( async (req, res) => {
@@ -49,7 +50,21 @@ const updateBudget = asyncHandler( async (req, res) => {
 })
 
 const deleteBudget = asyncHandler( async (req, res) => {
-    res.json({message:"budget deleted"})
+    const budgetId = req.params.id
+    console.log(budgetId.length);
+
+    if( !(budgetId.length === 24) ) {
+        res.status(400)
+        throw new Error("The budgetId should be of 24 strings")
+    } 
+
+    const deleteBudget = await BudgetSchema.findByIdAndDelete({ _id:budgetId })
+    if(!deleteBudget){
+        res.status(404)
+        throw new Error("The budget you are trying to delete does not exist")
+    }
+
+    res.json({message:"budget deleted", deleteBudget})
 })
 
 module.exports = {
