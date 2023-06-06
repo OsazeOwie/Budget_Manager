@@ -23,14 +23,21 @@ const errorHandler = (err, req, res, next) => {
                 stackTrace: err.stack
         }) 
             break;
-        case 404:
-            res.json({
-                title:"Not found",
-                message: err.message,
-                stackTrace: err.stack
-        }) 
-            break;
-        case 500:
+            case 404:
+                res.json({
+                    title:"Not found",
+                    message: err.message,
+                    stackTrace: err.stack
+            }) 
+                break;
+            case 409:
+                res.json({
+                    title:"Resource already exists",
+                    message: err.message,
+                    stackTrace: err.stack
+            }) 
+                break;
+            case 500:
             res.json({
                 title:"Server error",
                 message: err.message,

@@ -14,11 +14,15 @@ const createBudget = asyncHandler( async (req, res) => {
         throw new Error("Please fill in month, year, and budgetAmount");
     }
 
-    const existingBudget = await BudgetSchema.findOne({ user_id: req.user.id, month, year })
+    console.log("working1");
+
+    const existingBudget = await BudgetSchema.findOne({ user_id: req.user.id, month, year, budgetAmount })
     if (existingBudget) {
         res.status(409)
-        throw new Error("Budget plan already exists");
+        throw new Error("Budget already exists")
     }
+
+    console.log("working2");
 
     const budget = await BudgetSchema.create({
         user_id: req.user.id,
@@ -26,12 +30,11 @@ const createBudget = asyncHandler( async (req, res) => {
         year,
         budgetAmount
     })
-    if(budget){
-        res.status(201).json(budget)
-    }else{
-        throw new Error("Budget not created, please try again");
+    if(!budget){
+        throw new Error("Budget was not created, please try again")
     }
-    
+    res.json(budget)
+   
 })
 
 const updateBudget = asyncHandler( async (req, res) => {
