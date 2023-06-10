@@ -1,11 +1,5 @@
 const mongoose = require("mongoose");
 
-//Schema for storing expenses
-const expenseSchema = new mongoose.Schema({
-    description: { type: String, required: true },
-    amount: { type: Number, required: true }
-  });
-
 const budgetSchema = mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -14,20 +8,21 @@ const budgetSchema = mongoose.Schema({
     },
     month: {
         type: Number,
-        require: true,
+        required: true,
     },
     year: {
         type: Number,
-        require: true,
+        required: true,
     },
     budgetAmount: {
         type: Number,
         required: true
     },
-    expenses: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Expense'
-      }], // Array of expense objects
+    expenses: {
+        type: Map,
+        of: Number,
+        default: {}
+      },
     exceeded: {
         type: Boolean,
         default: false
